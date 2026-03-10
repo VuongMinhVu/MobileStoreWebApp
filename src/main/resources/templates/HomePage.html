@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>MobileStore | Premium Smartphone E-commerce</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+    <header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 md:px-10 lg:px-20 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-8">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2 text-primary">
+                    <span class="material-symbols-outlined text-3xl font-bold">smartphone</span>
+                    <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">MobileStore</h2>
+                </div>
+                <nav class="hidden lg:flex items-center gap-8">
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Home</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Phones</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Accessories</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Deals</a>
+                </nav>
+            </div>
+            <div class="flex flex-1 justify-end items-center gap-4 md:gap-6">
+                <div class="hidden md:flex flex-1 max-w-md relative">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                    <input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary outline-none" placeholder="Search for models, brands..." type="text"/>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors relative">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        <span class="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">3</span>
+                    </button>
+
+                    <div class="flex items-center gap-4">
+                        <div sec:authorize="isAnonymous()">
+                            <a th:href="@{/login}" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined">person</span>
+                                <span class="text-sm font-semibold">Đăng nhập</span>
+                            </a>
+                        </div>
+
+                        <div sec:authorize="isAuthenticated()" class="flex items-center gap-3">
+                            <div class="flex flex-col items-end">
+                                <span class="text-xs text-slate-500">Welcome,</span>
+                                <span class="text-sm font-bold text-primary" sec:authentication="name">User</span>
+                            </div>
+
+                            <form th:action="@{/logout}" method="post" class="inline">
+                                <button type="submit" class="p-2 hover:text-red-500 transition-colors">
+                                    <span class="material-symbols-outlined text-xl">logout</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1">
+        <section class="max-w-7xl mx-auto px-4 md:px-10 py-10">
+            <div class="relative overflow-hidden rounded-xl lg:rounded-3xl bg-slate-900 aspect-[16/9] md:aspect-[21/9] flex items-center">
+                <div class="absolute inset-0 z-0">
+                    <div class="w-full h-full bg-cover bg-center opacity-60" data-alt="Titanium gray iPhone 15 Pro Max floating in dark space" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCsqUyPxlMTlgVKhJzmTN9rv4gS_cWP2j8gfwH_ZsAnSZLzoTf60Gf9QXeL4uU6y2peu-8rp7COzN6UcDRRwQo2BSvYuyfB6wdBKmDgETSMi-lEHFpcU19KsQg-yzhj6jBKv16Sd6PZXhsYQYAKlAENdVHUIXT2wQUdbySmAGRkY6OgX1muO1N15fI4pWdlJgyyC-wQAVmsvJcc9VEi3i8HdbuL-j7bpRMYGqpaxaVGFS1sM_2hyzkZAFgFbWuUdtD7dOwYJ0EjR6Y");'></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+                </div>
+                <div class="relative z-10 px-8 md:px-16 max-w-2xl">
+                    <span class="inline-block px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-4">New Arrival</span>
+                    <h1 class="text-white text-4xl md:text-6xl font-black leading-[1.1] tracking-tight mb-6">
+                        Titanium. Strong. Light. Pro.
+                    </h1>
+                    <p class="text-slate-300 text-lg md:text-xl mb-8 font-medium">
+                        Experience the iPhone 15 Pro. The first iPhone with an aerospace‑grade titanium design.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all transform hover:scale-105">
+                            Shop Now
+                        </button>
+                        <button class="px-8 py-4 bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/30 rounded-lg font-bold transition-all">
+                            Learn More
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-4 md:px-10 py-12">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">Featured Smartphones</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-1">Our top picks for peak performance and style.</p>
+                </div>
+                <a class="text-primary font-bold flex items-center gap-1 hover:underline" href="#">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward_ios</span>
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
+                        <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Front and back view of iPhone 15 Pro Blue Titanium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrKB1JayRLXPBQ0cHE3s4Bu5th3nbmjz788cCgJcKxkj8yAvEvUXS20kO69HkqTsra7x1ZyEdmUJj4peaeFvyJVFlhKHm9cLHwFuBwaBiGklK-gf7VELERNf2Yp-MTwON6tNjydHeapGChgpylTU9zMXKIGwuLTTUqeAKstUlFnchBTchnNhQUfdhzhh_zd5e4t8mQ4R3SfnKf32NDGPT3BYftUHfllZzGUnm7A1TGD2u4OJwbBfQm9oqT275vcAi2NmQ2jra3S40"/>
+                        <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Apple</p>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">iPhone 15 Pro</h3>
+                        <div class="flex items-center justify-between mt-4">
+                            <div>
+                                <p class="text-sm text-slate-500 line-through">$1,099</p>
+                                <p class="text-xl font-black text-slate-900 dark:text-slate-100">$999</p>
+                            </div>
+                            <button class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white p-2.5 rounded-lg transition-colors group/btn">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
+                        <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Samsung Galaxy S24 Ultra Titanium Gray with S-Pen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGePULdlWywWtfzs7ChN5Xo3ZYmCuOJC5PGVRIAH21GpT6Fp20BeflhIBLh7k-zw2hSuiRJw890BVWuY6p7aMVMw5fbfKEqSqM0OzLX_2KZe0JVNDJa3ZMX9wbyqvvgMwyIIhmNbrnPda9EFgkdlfIerDTUSeaMvJKoYD91O-1QtioC9ngkoqRmn_eLvMlfhbPNGC5m8NICc8HCCQEjB2Pc4vxYdx3uHNUcMlg1qp8MtjvZ739Y1UmXrJ41ASodoHW5-sFYvW-DZc"/>
+                        <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Samsung</p>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Galaxy S24 Ultra</h3>
+                        <div class="flex items-center justify-between mt-4">
+                            <div>
+                                <p class="text-sm text-slate-500 line-through">$1,299</p>
+                                <p class="text-xl font-black text-slate-900 dark:text-slate-100">$1,199</p>
+                            </div>
+                            <button class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white p-2.5 rounded-lg transition-colors group/btn">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
+                        <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Google Pixel 8 Pro in Bay Blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGqBAzqNgRWabaV6XnPZLXKgzQphkifDXT_yR089tobn83KHk5JwuDcCNrm1ue2mhKWfr3ESqURcji9RrLTaiZU26xffnSTvegjqywjlJamL1ETYY09xXwl6ptnhCzrAJseAx02xDWeVINt6yzyKkjeDSJXhnDk4UVV96CP81irMuPH37NDiCcNd8O1hgviMTZcsS0jmXwwaC1sohO7ZhqPdmAatX-B8qQdTVVcfkdw_7zs19KF6hxEb7v42WUow5GxO1BwAuFrhI"/>
+                        <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Google</p>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Pixel 8 Pro</h3>
+                        <div class="flex items-center justify-between mt-4">
+                            <div>
+                                <p class="text-sm text-slate-500 line-through">$999</p>
+                                <p class="text-xl font-black text-slate-900 dark:text-slate-100">$899</p>
+                            </div>
+                            <button class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white p-2.5 rounded-lg transition-colors group/btn">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-xl transition-shadow">
+                    <div class="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
+                        <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" data-alt="Nothing Phone 2 with transparent back design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXgJvI6atuR0Vak6FDI8ImdMBPAyoZhYwaAiFxENsVMcr5zcjsdYMOim3BEE3Nr_azwa3olAPhyCeFtkdtdi-gSoBtW0oWwA0fHXVuzvD9Esu__R0WpsL_UOmONZs8wT3daBjGQLaivgHoaeO12eB7Vhn_Jd0HEO9DpXaOAPnB0HG4YkgpiSUPAKPv-hyarz8az-LqcFNe3ZnNcUWJ8DcU4gxC6Yp_53hAhAGp5Ee5xXXy_tXdi1idnAwn2bQxg18WD4v8mQPlbP0"/>
+                        <button class="absolute top-3 right-3 p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 hover:text-red-500 transition-colors">
+                            <span class="material-symbols-outlined text-xl">favorite</span>
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs font-bold text-primary mb-1 uppercase tracking-wider">Nothing</p>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">Nothing Phone (2)</h3>
+                        <div class="flex items-center justify-between mt-4">
+                            <div>
+                                <p class="text-sm text-slate-500 line-through">$699</p>
+                                <p class="text-xl font-black text-slate-900 dark:text-slate-100">$599</p>
+                            </div>
+                            <button class="bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white p-2.5 rounded-lg transition-colors group/btn">
+                                <span class="material-symbols-outlined">add_shopping_cart</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-4 md:px-10 py-16">
+            <div class="bg-primary rounded-2xl md:rounded-3xl p-8 md:p-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-1/3 h-full bg-white/5 skew-x-12 translate-x-1/2"></div>
+                <div class="relative z-10 text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">Upgrade Your Device Today &amp; Save Big</h2>
+                    <p class="text-primary/10 bg-white/20 inline-block px-4 py-1 rounded-full text-sm font-bold text-white mb-8 uppercase tracking-widest">Limited Time Offer</p>
+                    <p class="text-white/90 text-lg md:text-xl mb-10 leading-relaxed">
+                        Trade in your eligible smartphone and get up to $650 in credit toward your new one. It's the smartest way to upgrade.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button class="px-10 py-4 bg-white text-primary rounded-lg font-black text-lg hover:bg-slate-100 transition-colors">
+                            Trade In Now
+                        </button>
+                        <button class="px-10 py-4 bg-transparent border-2 border-white text-white rounded-lg font-black text-lg hover:bg-white/10 transition-colors">
+                            Find Stores
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-white dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                <div class="space-y-6">
+                    <div class="flex items-center gap-2 text-primary">
+                        <span class="material-symbols-outlined text-3xl font-bold">smartphone</span>
+                        <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">MobileStore</h2>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                        Your premier destination for the latest mobile technology. We offer authentic products with worldwide shipping and 24/7 expert support.
+                    </p>
+                    <div class="flex gap-4">
+                        <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">share</span></a>
+                        <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">thumb_up</span></a>
+                        <a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined text-xl">camera</span></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-slate-100 font-bold mb-6">Quick Links</h4>
+                    <ul class="space-y-4">
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Shop iPhones</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Samsung Galaxy</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Refurbished Deals</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Accessories</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Corporate Sales</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-slate-100 font-bold mb-6">Customer Service</h4>
+                    <ul class="space-y-4">
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Order Tracking</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Shipping Policy</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Returns &amp; Refunds</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">FAQ</a></li>
+                        <li><a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm" href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-slate-900 dark:text-slate-100 font-bold mb-6">Newsletter</h4>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm mb-4">Subscribe to get the latest tech news and exclusive offers.</p>
+                    <form class="space-y-3">
+                        <input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-3 px-4 text-sm focus:ring-2 focus:ring-primary outline-none" placeholder="Email address" type="email"/>
+                        <button class="w-full bg-primary py-3 rounded-lg text-white font-bold text-sm hover:bg-primary/90 transition-colors">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+                <p class="text-slate-400 text-xs">© 2024 MobileStore E-commerce Inc. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <span class="material-symbols-outlined text-slate-400 text-4xl">payments</span>
+                    <span class="material-symbols-outlined text-slate-400 text-4xl">credit_card</span>
+                    <span class="material-symbols-outlined text-slate-400 text-4xl">account_balance_wallet</span>
+                </div>
+                <div class="flex gap-6 text-xs text-slate-400">
+                    <a class="hover:text-primary" href="#">Privacy Policy</a>
+                    <a class="hover:text-primary" href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body></html>

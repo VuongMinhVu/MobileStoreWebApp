@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Modern Mobile Store Login</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#1349ec",
+                "background-light": "#f6f6f8",
+                "background-dark": "#101522",
+              },
+              fontFamily: {
+                "display": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex items-center justify-center p-4">
+<div class="relative flex h-auto max-w-5xl w-full flex-col lg:flex-row bg-white dark:bg-slate-900 shadow-2xl rounded-xl overflow-hidden">
+    <!-- Image Section -->
+    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+        <div class="absolute inset-0 bg-primary/10 z-10"></div>
+        <div class="w-full h-full bg-center bg-no-repeat bg-cover" data-alt="High-tech smartphone showcasing vibrant display technology" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1zfnTiEj1PYz3_UBM5mQG7MQ_VcTjoUfYvsc_Pn2qFQvQhnGhAOiPS8Hc-AE5jrz6yaLPiyQU0LIO-5kw6M9vhfKifsJ5_nwv5yb-G6McpZX6s7s1ygQwafYe2j50oymsDrRQiB02gxQQQisQ0Y5pVMAOpwYfoQYX4sTRsn1JMA0SsLr-g0CYzpYDYCjBHlfj-4htGDz-3CRx8c-RbqOT-vgvDuD7gdY1KbFwx5p0gyI3sEWUGkQamZcCQsm73GsvEwotLXDuyEw");'>
+        </div>
+        <div class="absolute bottom-10 left-10 z-20 text-white">
+            <h2 class="text-3xl font-bold mb-2">Connect to Innovation</h2>
+            <p class="text-white/80 max-w-xs">Experience the next generation of mobile technology with our curated store.</p>
+        </div>
+    </div>
+    <!-- Login Form Section -->
+    <div class="flex-1 p-8 lg:p-16">
+        <div class="mb-10 text-center lg:text-left">
+            <div class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 text-primary rounded-xl mb-4">
+                <span class="material-symbols-outlined text-3xl">smartphone</span>
+            </div>
+            <h1 class="text-slate-900 dark:text-slate-100 text-3xl font-black leading-tight tracking-tight">Welcome Back</h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-2">Login to your mobile store account</p>
+        </div>
+        <form th:action="@{/login}" method="post" class="space-y-5">
+            <div>
+                <label class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">mail</span>
+                    <input class="w-full pl-12 pr-4 py-3.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="name@example.com" name="username"/>
+                </div>
+            </div>
+            <div>
+                <label class="block mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">lock</span>
+                    <input class="w-full pl-12 pr-12 py-3.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none" placeholder="••••••••" type="password" name="password"/>
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors" type="button">
+                        <span class="material-symbols-outlined text-xl">visibility</span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <input class="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary dark:bg-slate-800 dark:border-slate-700" id="remember" type="checkbox"/>
+                    <label class="ml-2 text-sm text-slate-500 dark:text-slate-400" for="remember">Remember me</label>
+                </div>
+                <a class="text-sm font-medium text-primary hover:underline" href="#">Forgot Password?</a>
+            </div>
+            <button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-lg transition-all shadow-lg shadow-primary/25 active:scale-[0.98]" type="submit">
+                Sign In
+            </button>
+        </form>
+        <div class="relative my-8">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-slate-200 dark:border-slate-700"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-4 bg-white dark:bg-slate-900 text-slate-500">Or continue with</span>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <button class="flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300 font-medium">
+                <svg class="w-5 h-5" viewbox="0 0 24 24">
+                    <path d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z" fill="#EA4335"></path>
+                    <path d="M16.04 18.013c-1.09.303-2.26.474-3.486.474-3.041 0-5.636-1.921-6.626-4.604l-4.045 3.13C3.393 21.07 7.42 24 12 24c3.055 0 5.782-1.064 7.91-2.855l-3.87-3.132Z" fill="#FBBC05"></path>
+                    <path d="M24 12c0-.832-.073-1.636-.214-2.422h-11.786v4.613h6.614c-.305 1.636-1.255 3.033-2.573 3.955l3.873 3.132C22.25 19.123 24 15.864 24 12Z" fill="#4285F4"></path>
+                    <path d="M1.24 6.65l4.026 3.115c.182-.493.455-.955.795-1.373l-4.026-3.115a11.96 11.96 0 0 0-.795 1.373Z" fill="#34A853"></path>
+                </svg>
+                Google
+            </button>
+            <button class="flex items-center justify-center gap-2 py-3 px-4 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-700 dark:text-slate-300 font-medium">
+                <svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewbox="0 0 24 24">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                </svg>
+                Facebook
+            </button>
+        </div>
+        <p class="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
+            Don't have an account?
+            <a th:href="@{/register}" class="font-bold text-primary hover:underline">Create an account</a>
+        </p>
+    </div>
+</div>
+</body></html>
