@@ -60,4 +60,11 @@ public class ProductController {
         ra.addFlashAttribute("message", "Đã xóa sản phẩm thành công!");
         return "redirect:/admin/products";
     }
+
+    @GetMapping("/delete-all")
+    public String deleteAll(RedirectAttributes dla) {
+        productService.deleteAllProducts();
+        dla.addFlashAttribute("message", "deleted!");
+        return "redirect:/admin/products";
+    }
 }
