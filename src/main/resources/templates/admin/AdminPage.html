@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Admin Inventory Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1349ec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101522",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .active-link { background-color: rgba(19, 73, 236, 0.1); color: #1349ec; }
+        /* Đảm bảo scrollbar mượt hơn */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-screen overflow-hidden">
+    <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+        <div class="p-6">
+            <div class="flex items-center gap-3 text-primary">
+                <span class="material-symbols-outlined text-3xl">smartphone</span>
+                <h1 class="text-xl font-bold tracking-tight">MobiAdmin</h1>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1 ml-10">E-commerce Hub</p>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 py-4">
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" th:href="@{/admin/dashboard}">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span class="font-medium text-sm">Dashboard</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg active-link transition-colors" th:href="@{/admin/products}">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span class="font-medium text-sm">Inventory</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+                <span class="material-symbols-outlined">shopping_cart</span>
+                <span class="font-medium text-sm">Orders</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+                <span class="material-symbols-outlined">group</span>
+                <span class="font-medium text-sm">Users</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-slate-100 dark:border-slate-800">
+            <div class="flex items-center gap-3 px-2">
+                <div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                    <span class="material-symbols-outlined">person</span>
+                </div>
+                <div>
+                    <p class="text-sm font-bold truncate w-32" sec:authentication="name">Admin Name</p>
+                    <p class="text-xs text-slate-500">Super Admin</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col min-w-0">
+        <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shrink-0 z-10">
+            <form th:action="@{/admin/products}" method="get" class="relative w-96">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input name="keyword" th:value="${keyword}"
+                       class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary/20"
+                       placeholder="Search product name..." type="text"/>
+            </form>
+            <div class="flex items-center gap-4">
+                <button class="p-2 text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+                </button>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="p-2 text-slate-500 hover:text-rose-500 rounded-lg">
+                        <span class="material-symbols-outlined">logout</span>
+                    </button>
+                </form>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-8 space-y-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Inventory Management</h2>
+                    <p class="text-slate-500 text-sm">Manage your smartphone stock and listings</p>
+                </div>
+                <a th:href="@{/admin/products/new}" class="bg-primary text-white px-6 py-2.5 rounded-lg font-semibold text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    Add New Product
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-4">Sales Performance</h3>
+                    <div class="h-48 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex items-center justify-center text-slate-400 italic">Weekly Revenue Chart Placeholder</div>
+                </div>
+                <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="font-bold mb-4">Stock Distribution</h3>
+                    <div class="h-48 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex items-center justify-center text-slate-400 italic">Units per Brands Chart Placeholder</div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden mb-10">
+                <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900 sticky top-0 z-[5]">
+                    <h3 class="font-bold">Recent Products</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                        <tr class="text-slate-500 text-xs font-bold uppercase bg-slate-50 dark:bg-slate-800/50">
+                            <th class="px-6 py-4">Image</th>
+                            <th class="px-6 py-4">Product Name</th>
+                            <th class="px-6 py-4">SKU</th>
+                            <th class="px-6 py-4">Price</th>
+                            <th class="px-6 py-4">Stock Status</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        <tr th:each="product : ${products}" class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="size-12 rounded-lg bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                    <img class="w-full h-full object-cover" th:src="${product.imageUrl}" th:alt="${product.name}"/>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="font-semibold text-slate-900 dark:text-white" th:text="${product.name}">Product Name</div>
+                                <div class="text-xs text-slate-500 truncate w-48" th:text="${product.description}">Description</div>
+                            </td>
+                            <td class="px-6 py-4 text-sm font-mono" th:text="${product.sku}">SKU</td>
+                            <td class="px-6 py-4 font-bold text-primary" th:text="${#numbers.formatCurrency(product.price)}">$0.00</td>
+                            <td class="px-6 py-4">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold"
+                                      th:text="${product.stockStatus}"
+                                      th:classappend="${product.stockStatus == 'In Stock' ? 'bg-emerald-100 text-emerald-700' :
+                                                      (product.stockStatus == 'Low Stock' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700')}">
+                                    Status
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <a th:href="@{/admin/products/edit/{id}(id=${product.id})}" class="p-2 text-slate-400 hover:text-primary">
+                                        <span class="material-symbols-outlined">edit</span>
+                                    </a>
+                                    <a th:href="@{/admin/products/delete/{id}(id=${product.id})}"
+                                       onclick="return confirm('Xác nhận xóa sản phẩm này?')"
+                                       class="p-2 text-slate-400 hover:text-rose-500">
+                                        <span class="material-symbols-outlined">delete</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<div id="toast" th:if="${message}"
+     class="fixed bottom-10 right-10 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 transform transition-all duration-500 translate-y-20 opacity-0 z-[100]">
+    <span class="material-symbols-outlined text-emerald-400">check_circle</span>
+    <span class="font-medium text-sm" th:text="${message}">Message</span>
+</div>
+
+<script>
+    const toast = document.getElementById('toast');
+    if (toast) {
+        setTimeout(() => {
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+        }, 100);
+        setTimeout(() => {
+            toast.classList.add('opacity-0', 'translate-y-10');
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+</script>
+</body>
+</html>
